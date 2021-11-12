@@ -12,7 +12,9 @@ class Node():
         if current_layer == len(nodes_per_layer_map):
             return
         for i in range(nodes_per_layer_map[current_layer]):
-            if (current_layer == 1):
+            if (current_layer == 0):
+                self.children.append(Node('Input layer node' + str(i + 1)))
+            elif(current_layer == 1):
                 self.children.append(Node('Hidden layer node' + str(i + 1)))
             else:
                 self.children.append(Node('Output layer node' + str(i + 1)))
@@ -42,17 +44,11 @@ class Node():
             if i < len(self.children_connection_weights):
                 print(f"{indent}with weight {self.children_connection_weights[i]} ")
 
-master_node = Node('Master node')
-my_first_node = Node('Input layer node1')
+my_first_node = Node('Master node')
 NODE_COUNT_PER_LAYER = [4, 3, 2] 
-my_first_node.make_children(1, NODE_COUNT_PER_LAYER)
-master_node.children.append(my_first_node)
-for i in range(1, len(NODE_COUNT_PER_LAYER)):
-    new_node = Node('Input layer node' + str(i + 1))
-    new_node.children = my_first_node.children[:]
-    master_node.children.append(new_node)
+my_first_node.make_children(0, NODE_COUNT_PER_LAYER)
+my_first_node.output_children(0)
 
-master_node.output_children(0)
 print("!! Set Weights !!")
-master_node.adjust_child_weights()
-master_node.output_children(0)
+my_first_node.adjust_child_weights()
+my_first_node.output_children(0)
